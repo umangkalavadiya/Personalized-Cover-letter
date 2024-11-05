@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="bg-black shadow-md rounded-lg p-6 border border-primary">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-primary">Generated Cover Letter</h1>
+            <a href="{{ url_for('index') }}" 
+               class="bg-accent text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black">
+                Create New
+            </a>
+        </div>
+
+        <div class="flex gap-6">
+            {% if show_original %}
+            <!-- Original Letter (Left Side) -->
+            <div class="flex-1 p-4 bg-secondary rounded-md border border-primary">
+                <h2 class="text-lg font-semibold mb-2 text-primary">Original Version</h2>
+                <div class="whitespace-pre-wrap font-serif text-white">
+                    {{ original_letter }}
+                </div>
+            </div>
+            
+            <!-- Refined Letter (Right Side) -->
+            <div class="flex-1 p-4 bg-secondary rounded-md border border-primary">
+                <h2 class="text-lg font-semibold mb-2 text-primary">Refined Version</h2>
+                <div class="whitespace-pre-wrap font-serif text-white">
+                    {{ cover_letter }}
+                </div>
+            </div>
+            {% else %}
+            <!-- Single Letter View -->
+            <div class="w-full p-4 bg-secondary rounded-md border border-primary">
+                <div class="whitespace-pre-wrap font-serif text-white">
+                    {{ cover_letter }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <form action="{{ url_for('refine') }}" method="post" class="mt-8">
+            <input type="hidden" name="original_cover_letter" value="{{ cover_letter }}">
+            
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-primary mb-2">
+                    Recommendations for Improvement
+                </label>
+                <textarea 
+                    name="recommendation" 
+                    rows="4"
+                    class="mt-1 block w-full rounded-md bg-secondary border-primary text-white shadow-sm focus:border-accent focus:ring-accent"
+                    placeholder="Paste recommendations to improve the cover letter..."></textarea>
+            </div>
+            
+            <div class="flex justify-between">
+                <button type="submit"
+                    class="bg-primary text-white py-2 px-6 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black">
+                    Refine Cover Letter
+                </button>
+                
+                <button onclick="window.print()" type="button"
+                    class="bg-accent text-white py-2 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-black">
+                    Print / Save PDF
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
